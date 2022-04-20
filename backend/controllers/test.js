@@ -1,6 +1,7 @@
 const GT = require('../middleware/generate-token');
 const jwt = require("jsonwebtoken");
 
+
 exports.test = (req, res, next) => {
     res.status(200).json({result: true, message: 'Success..'});
 }
