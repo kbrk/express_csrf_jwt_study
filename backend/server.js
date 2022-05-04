@@ -30,7 +30,8 @@ const testRoutes = require("./routes/test");
 app.use('/test', testRoutes);
 
 
+const domain = process.env.DOMAIN
 const port = process.env.PORT
 app.listen(port, ()=> {
-    console.log(`Listening at http://localhost:${port}`)
+    console.log(`Listening at ${domain}:${port}`)
 });
