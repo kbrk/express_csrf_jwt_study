@@ -33,5 +33,5 @@ app.use('/test', testRoutes);
 const domain = process.env.DOMAIN
 const port = process.env.PORT
 app.listen(port, ()=> {
-    console.log(`Listening at ${domain}:${port}`)
+    console.log(`Listening at http://${domain}:${port}`)
 });
