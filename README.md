@@ -15,16 +15,6 @@
 <p><b>express-session:</b> A session middleware for Express.</p>
 <p><b>jsonwebtoken:</b> An implementation of JWT for Node.js.</p>
 
-# Package Installation
-```
-cd backend
-npm install
-```
-# Usage
-```
-npm run start:dev
-```
-
 # .env variables
 
 There should be a .env file in ./backend and its variables are;
@@ -49,3 +39,12 @@ const user = {
 } // user data is assigned manually for testing.
 ```
 
+# Package Installation
+```
+cd backend
+npm install
+```
+# Usage
+```
+npm run start:dev
+```
