@@ -1,20 +1,6 @@
 const GT = require('./generate-token');
+const SC = require('../helpers/split-cookie');
 const jwt = require('jsonwebtoken');
-
-
-/**
- *  @desc Splits request Cookie header array and generates another array that contain access and/or refresh token.
- *  @param {array}  contains cookies from request Cookie header.
- */
-splitCookieArray = (array) => {
-    let resultArray = [];
-    array.forEach((element) => {
-        const arraySplitted = element.split("=");
-        resultArray[arraySplitted[0]] = arraySplitted[1];
-        return resultArray;
-    });
-    return resultArray;
-};
 
 /**
  *  @desc Splits request Cookie header array and generates another array that contain access and/or refresh token.
@@ -39,33 +25,37 @@ refreshAccessToken = async (refresh_token) => {
 
 /**
  * @desc Gets tokens through request cookie and checks token validation. If the access token expired, a new access token is generated through the refresh token.
-* */
+ * */
 module.exports = async (req, res, next) => {
     let verifiedToken;
     let cookieArray, access_token, refresh_token;
     try {
         const cookies = req.get('Cookie').split('; ');
-        cookieArray = splitCookieArray(cookies);
+        cookieArray = SC.splitCookieArray(cookies);
         access_token = cookieArray["access_token"];
-        if (!access_token) {
+
+        if (!access_token) { // An access token must be in Cookie header.
             res.status(401).json({result: false, message: "Authentication failed."});
             return;
         }
+
         const secret = process.env.JWT_SECRET;
         verifiedToken = await jwt.verify(access_token, secret); // If the token cannot be verified an error threw.
-    } catch (error) {
-        // ++ Refresh the access token
-        if (typeof req.get('Cookie') !== 'undefined') {
-            refresh_token = cookieArray["refresh_token"];
-            const newAccessToken = await refreshAccessToken(refresh_token);
-            if (newAccessToken) {
-                res.status(200).cookie('access_token', newAccessToken.token, newAccessToken.cookie);
-                req.isAuth = true;
-                next();
-                return;
+    } catch (e) {
+        if (e.name === "TokenExpiredError" && e.expiredAt !== undefined) {
+            // ++ Refresh the access token
+            if (typeof req.get('Cookie') !== 'undefined') {
+                refresh_token = cookieArray["refresh_token"];
+                const newAccessToken = await refreshAccessToken(refresh_token);
+                if (newAccessToken) {
+                    res.status(200).cookie('access_token', newAccessToken.token, newAccessToken.cookie);
+                    req.isAuth = true;
+                    next();
+                    return;
+                }
             }
+            // -- Refresh the access token
         }
-        // -- Refresh the access token
         res.status(500).json({result: false, message: "Invalid or Expired Token. Sign in again."});
         return;
     }
