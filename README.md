@@ -4,7 +4,9 @@
 
 <p>In this study, CSRF prevention and authentication with JWT are implemented with a simple example regardless of database and front-end implementations. 
   HTTP requests were handled through Postman.</p>
-  
+
+<p>Sign out function and token invalidation has been added.</p>
+
 # Dev Dependencies:
 <p><b>nodemon:</b> A tool that helps develop node.js based applications by restarting automatically the application when file changes are detected in the directory.</p>
 
