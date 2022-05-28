@@ -2,8 +2,8 @@ const jwt = require('jsonwebtoken');
 
 /**
  *  @desc Generates a token. Return the token and cookie configuration.
- *  @param {user}  credentials set in token
- *  $param {tokenType} is 1: JWT for authentication, 2: JWT for refresh token
+ * @param user
+ * @param tokenType is 1: JWT for authentication, 2: JWT for refresh token
  */
 exports.generateToken = async (user, tokenType) => {
     let secret;

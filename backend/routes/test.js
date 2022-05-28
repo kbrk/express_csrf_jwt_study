@@ -4,13 +4,9 @@ const testController = require('../controllers/test');
 
 const csrf = require('csurf');
 const checkAuth = require('../middleware/check-auth');
+const tokenCaching = require('../middleware/token-caching');
 
 const csrfProtection = csrf();
-
-// with Cookie
-//const csrfProtection = csrf({cookie: true});
-// if cookie used for csrf token secret
-//router.use(cookieParser());
 
 router.post('/test', testController.test);
 
@@ -23,8 +19,9 @@ router.post('/checkCSRFToken', csrfProtection, function (req, res) {
     res.send({msg: 'CSRF Token is valid.'})
 }); // If the token is invalid, it throws a 'ForbiddenError: invalid csrf token' error.
 
-router.use(csrfProtection);
+//router.use(csrfProtection);
 router.post('/signin', testController.signin);
-router.post('/authorizedSubmit', checkAuth, testController.authorizedSubmit);
+router.post('/signout', checkAuth, tokenCaching.removeCache, testController.signout);
+router.post('/authorizedSubmit', checkAuth, tokenCaching.checkCache, testController.authorizedSubmit);
 
 module.exports = router;

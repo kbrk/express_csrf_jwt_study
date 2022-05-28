@@ -1,4 +1,5 @@
 const GT = require('./generate-token');
+const TC = require('./token-caching');
 const SC = require('../helpers/split-cookie');
 const jwt = require('jsonwebtoken');
 
@@ -48,6 +49,7 @@ module.exports = async (req, res, next) => {
                 refresh_token = cookieArray["refresh_token"];
                 const newAccessToken = await refreshAccessToken(refresh_token);
                 if (newAccessToken) {
+                    await TC.setCache(newAccessToken.token); // Cache the new token.
                     res.status(200).cookie('access_token', newAccessToken.token, newAccessToken.cookie);
                     req.isAuth = true;
                     next();
