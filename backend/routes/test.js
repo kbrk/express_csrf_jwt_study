@@ -19,7 +19,7 @@ router.post('/checkCSRFToken', csrfProtection, function (req, res) {
     res.send({msg: 'CSRF Token is valid.'})
 }); // If the token is invalid, it throws a 'ForbiddenError: invalid csrf token' error.
 
-//router.use(csrfProtection);
+router.use(csrfProtection);
 router.post('/signin', testController.signin);
 router.post('/signout', checkAuth, tokenCaching.removeCache, testController.signout);
 router.post('/authorizedSubmit', checkAuth, tokenCaching.checkCache, testController.authorizedSubmit);
