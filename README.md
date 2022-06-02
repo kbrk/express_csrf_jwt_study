@@ -16,6 +16,7 @@
 <p><b>express:</b> A backend web application framework for Node.js.</p>
 <p><b>express-session:</b> A session middleware for Express.</p>
 <p><b>jsonwebtoken:</b> An implementation of JWT for Node.js.</p>
+<p><b>node-cache:</b> A simple caching module for Node.js that has set, get and delete methods.</p>
 
 # .env variables
 
