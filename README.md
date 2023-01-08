@@ -13,7 +13,7 @@
 <p><b>nodemon:</b> A tool that helps develop node.js based applications by restarting automatically the application when file changes are detected in the directory.</p>
 
 # Dependencies:
-<p><b>csurf:</b> A Node.js middleware that is used to prevent CSRF attacks.</p>
+<p><b>csurf:</b> A Node.js middleware that is used to prevent CSRF attacks. (<b>Note:</b> Note: This module has been deprecated since September 2022 due to the security vulnerability reports. https://github.com/expressjs/csurf)</p>
 <p><b>dotenv:</b> A module for environmental configuration variables.</p>
 <p><b>express:</b> A backend web application framework for Node.js.</p>
 <p><b>express-session:</b> A session middleware for Express.</p>
